@@ -101,15 +101,15 @@ class Analysisxls:
             return currow
 
 
-dicc = {"级别": "VC[3,4]$", "方向": "双向"}
-c = Analysisxls(**dicc)
-# tlist = c.mainrowtocelltup2()
-# list = []
-# for i in tlist:
-#     list.append(i.value)
-# print(list)
-a=c.filter(**dicc)
-for i in a:
-    print(i)
-
-print(len(a))
+# dicc = {"级别": "VC[3,4]$", "方向": "双向"}
+# c = Analysisxls(**dicc)
+# # tlist = c.mainrowtocelltup2()
+# # list = []
+# # for i in tlist:
+# #     list.append(i.value)
+# # print(list)
+# a=c.filter(**dicc)
+# for i in a:
+#     print(i)
+#
+# print(len(a))
