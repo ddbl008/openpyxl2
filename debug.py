@@ -1,9 +1,10 @@
-a=["a","bb","c"]
-b=["a","bb","c"]
-#print(a.index("b"))
-b="abc"
-c="bc"
+from CMtools import timer
 
-for i,j in a,b:
+a = ["a", "bb", "c"]
+b = ["a", "bb", "c"]
+# print(a.index("b"))
+b = "abc"
+c = "bc"
 
-print(b.find(c))
+@timer
+print(2)

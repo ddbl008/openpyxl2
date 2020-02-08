@@ -29,7 +29,7 @@ class myUI:
             list_temn.append(lb_tname)
             list_temn.append(tb_tname)
             list_tcontainer.append(list_temn)
-            i+=1
+
 
             print("the {} time".format(i))
 

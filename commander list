@@ -1,3 +1,14 @@
 pip install -i  https://mirrors.aliyun.com/pypi/simple/ openpyxl
 
 https://blog.csdn.net/ahilll/article/details/81531587 Tk教程
+
+骚技巧：
+三元表达式 print a if a>0 else print b 此方法可以用来赋值
+
+with as 可以视作是 try fallaly的另外一种写作
+
+《一行 Python 代码能实现什么丧心病狂的功能？》列表推导式
+
+列表操作 ，使用-1即可将列表翻转
+
+https://www.zhangshengrong.com/p/ArXGbZ5Njy/ 装饰器作用
