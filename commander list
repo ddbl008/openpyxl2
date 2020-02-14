@@ -12,3 +12,25 @@ with as 可以视作是 try fallaly的另外一种写作
 列表操作 ，使用-1即可将列表翻转
 
 https://www.zhangshengrong.com/p/ArXGbZ5Njy/ 装饰器作用
+
+ python查看支持whl版本
+ Amd64
+import pip._internal
+print(pip._internal.pep425tags.get_supported())
+win32
+import pip
+print(pip.pep425tags.get_supported())
+
+ctrl+shift+F7 查看函数在哪应用
+ctrl+shif+A 快捷查询，pycharm siri
+ctrl+alt+shift+I python inspection
+alt+shift+F10 debug dropdown
+
+
+#######可能用到的#########
+错误捕捉
+            try:
+                line = next(op)
+            except StopIteration as e:
+                break
+            else:
