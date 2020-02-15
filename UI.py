@@ -59,18 +59,56 @@ class myUI:
 
         def bt_radio_sure():
             lb_output.delete(1.0, 'end')
+
+            for i in self.wd.winfo_children():
+                if str(type(i)) == "<class 'tkinter.ttk.Treeview'>":
+                    i.destroy()
+
+            sum = 0
+            numi = 0
+            list_newtname = []
+            list_num = []
             for i in list_var:
-                lb_output.insert("insert", i.get())
+                if i.get() == 1:
+                    list_newtname.append(list_tname[numi])
+                    list_num.append(numi)
+                    sum += 1
+                numi += 1
+            tree_output = tk.ttk.Treeview(self.wd, columns=list_newtname)
+            j = 0
+            widtht = round(2568 / sum)
+            widtht = 100
+            for j in range(0, len(list_newtname)):
+                tree_output.heading(list_newtname[j], text=list_newtname[j])
+
+                tree_output.column(list_newtname[j], width=widtht)
+
+            # tree_output.grid(row=10, column=0, columnspan=sum)
+            tree_output.grid(row=13, column=0, columnspan=self.int_sheettitle + 2)
+
+            # 获取多个entry的输入，构造字典
+            dic_mutienry = {}
+            for i in list_tcontainer:
+
+                if len(i[1].get() )>0:
+                    dic_mutienry[i[0]["text"]] = i[1].get()
+
+
+
+            cc = Analysisxls.Analysisxls()
+            list_src = cc.filter(**dic_mutienry)
+            for j in cc.alsomecol(list_src, **c.dic_top):
+                list_re = []
+                for i in list_num:
+                    list_re.append(j[i])
+
+                tree_output.insert('', 'end', values=list_re)
 
         bt_radiosure = tk.Button(frame_selectoutpu, text="确定", command=bt_radio_sure)
         bt_radiosure.grid()
 
         lb_output = tk.Text(self.wd, width=220)
         lb_output.grid(column=1, columnspan=self.int_sheettitle - 2)
-        cc = Analysisxls.Analysisxls()
-        list_src = cc.filter()
-        for j in cc.alsomecol(list_src, **c.dic_top):
-            tree_output.insert('', 'end', values=j)
 
         self.wd.mainloop()
 

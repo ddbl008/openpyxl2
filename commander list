@@ -25,10 +25,13 @@ ctrl+shift+F7 查看函数在哪应用
 ctrl+shif+A 快捷查询，pycharm siri
 ctrl+alt+shift+I python inspection
 alt+shift+F10 debug dropdown
-
+ctrl+空格 xml标签提示
+*可以做为搜索的通配符号选项
+ Ctrl+Alt+T (Code | Surround With) and choose try/except. This will automatically generate the except clause.
+ ctrl+tab 出现导航列表，选择文本框
 
 #######可能用到的#########
-错误捕捉
+错误捕捉：快捷键 Ctrl+Alt+T (Code | Surround With) and choose try/except. This will automatically generate the except clause.
             try:
                 line = next(op)
             except StopIteration as e:

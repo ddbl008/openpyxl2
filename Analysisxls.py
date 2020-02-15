@@ -214,12 +214,12 @@ def main(argv=None):
     # match = re.findall(pattern, list_text[1][8])
     # print(len(match))
 
-    lista = c.filter(**dicc)
-    sum=0
-    for i in c.alsomecol(lista,**c.dic_top):
-        print(i)
-
-    print(sum)
+    # lista = c.filter(**dicc)
+    # sum=0
+    # for i in c.alsomecol(lista,**c.dic_top):
+    #     print(i)
+    #
+    # print(sum)
 
 
 

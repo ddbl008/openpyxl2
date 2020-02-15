@@ -7,4 +7,5 @@ b = "abc"
 c = "bc"
 
 @timer
+w
 print(2)
