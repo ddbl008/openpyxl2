@@ -109,6 +109,7 @@ class myUI:
 
         lb_output = tk.Text(self.wd, width=220)
         lb_output.grid(column=1, columnspan=self.int_sheettitle - 2)
+        lb_output.grid_forget()
 
         self.wd.mainloop()
 
