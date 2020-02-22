@@ -1,5 +1,8 @@
 from CMtools import timer
 
+
+
+
 a = ["a", "bb", "c"]
 b = ["a", "bb", "c"]
 # print(a.index("b"))

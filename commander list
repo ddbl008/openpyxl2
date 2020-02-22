@@ -1,3 +1,5 @@
+https://zhile.io/
+
 pip install -i  https://mirrors.aliyun.com/pypi/simple/ openpyxl
 
 https://blog.csdn.net/ahilll/article/details/81531587 Tk教程
@@ -12,6 +14,7 @@ with as 可以视作是 try fallaly的另外一种写作
 列表操作 ，使用-1即可将列表翻转
 
 https://www.zhangshengrong.com/p/ArXGbZ5Njy/ 装饰器作用
+https://baijiahao.baidu.com/s?id=1640210921068132609&wfr=spider&for=pc 较好的pandas教程
 
  python查看支持whl版本
  Amd64

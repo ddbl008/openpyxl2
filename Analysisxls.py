@@ -46,8 +46,7 @@ class Analysisxls:
 
     def __init__(self, **kwr):
 
-        self.workbookname = "实时电路可靠性分析工具V039.xlsm"
-        self.sheetname = "全路由"
+
         self.myinit(**kwr)
         self.wb = openpyxl.load_workbook(self.workbookname)
         self.st = self.wb.get_sheet_by_name(self.sheetname)
@@ -101,7 +100,7 @@ class Analysisxls:
 
         return True
 
-    def alsomecol(self, list_srt, *licow, **kwr):
+    def sheetlistconvert(self, list_src,**converfunc):
         # 使用kwr对应的方法来控制函数执行的过滤。譬如path="simple"路径简化
         def chuli1(n, **licow1):  #
             #
@@ -111,8 +110,8 @@ class Analysisxls:
                 n = licow1["add"][j](n)
             return n
 
-        for i in list_srt:
-            yield chuli1(i, **kwr)
+        for i in list_src:
+            yield chuli1(i, **converfunc)
 
     def list_getsheetcontent(self, rowrange):
         list_r = []
