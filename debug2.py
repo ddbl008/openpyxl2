@@ -77,7 +77,9 @@ class mianframe(object):
         bt.grid()
 
     def btn_click(self, event=None):
+        print(type(event))
         btn_text = event.widget['text']
+
 
         if btn_text == 1:
             # self.show_label_0.pack(fill="both", expand=1, padx=2, pady=2)
