@@ -102,8 +102,8 @@ class newUI:
         f2 = tk.Frame(top)
         f3 = tk.Frame(top)
 
-        labe1 = tk.Label(f1, text='光口查询功能:输入待查询站点名字后，即可获得与该站发生联系的光口以及对侧站点槽位，连接速率信息')
-        labe2 = tk.Label(f2, text='请输入站点名字')
+        labe1 = tk.Label(f1, text='光口查询功能:输入待查询站点名字后，即可获得与该站发生联系的光口以及对侧站点槽位，连接速率信息',font="15",bg="yellow")
+        labe2 = tk.Label(f2, text='请输入站点名字',font="20",bg="gray")
         entry1=tk.Entry(f2)
         bt1=tk.Button(f2,text="确定",command=sure_click)
         text1=tk.Text(f3,width=100)
