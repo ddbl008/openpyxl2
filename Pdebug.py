@@ -3,15 +3,48 @@ import numpy as np
 import openpyxl
 import traceback
 import re
+import os
+import types
 
 
 class Csvaylisys:
     def __init__(self, fname):
-        self.df = self.initdf(fname)
-        # print(self.df.head(3))
+        if type(fname) is str:
+            self.df = self.initdf(fname)
+        if isinstance(fname, pd.DataFrame):
+
+            self.df=fname
+
+    @classmethod
+    def allcsv(cls):
+        mydir = os.getcwd()
+        # for root,dir,file in os.walk(mydir):
+        #     print(type(root))
+        #     print(type(dir))
+        #     print(file)
+        root, dir, file = next(os.walk(mydir))
+        print(file)
+        csv = []
+        for i in file:
+            if i.split(".")[-1] == "csv":
+                csv.append(i)
+        df=pd.DataFrame()
+
+        for acsv in csv:
+            df2=cls.initdf(type(Csvaylisys),acsv)
+            df = pd.concat([df, df2], axis=0, ignore_index=True)
+
+        return cls(df)
 
     def initdf(self, fname):
-        df = pd.read_csv(fname)
+        ftape=str(fname)[-3:]
+        if ftape=="csv":
+
+            df = pd.read_csv(fname)
+        if ftape=="lsx" or ftape=="xls":
+            df=pd.read_excel("省干新A网.xlsx",encoding="cp936")
+
+
 
         formwidth = df.shape[1]
         # df2=df[(df.iloc[:,formwidth-1])=='备注']
@@ -21,16 +54,7 @@ class Csvaylisys:
         # print(df.columns.get_loc(list1))
         df3 = pd.read_csv(fname, header=list1[0] + 1)
 
-        # def tt(x):
-        #     naay = (x["方向"].values)
-        #     for ii in range(0,3806):
-        #         naay[ii,]= naay[ii,]+"nie"
-        #     for i in naay:
-        #         i=2
-        #     print(naay.shape)
-        #     return x["方向"]
-        #
-        # df3["方向"]= tt(df3)
+        df3["来源"]=fname
 
         return df3
 
@@ -156,6 +180,7 @@ class Csvaylisys:
         print(self.df.shape[0])
         for i in range(0, self.df.shape[0]):
             t = str(self.df.iloc[i, 8])
+            souce_t=str(self.df.iloc[i, 14])
 
             match = re.search(pat1, t, re.MULTILINE)
             if match:
@@ -167,7 +192,10 @@ class Csvaylisys:
                 list_temp.append(nodename)
                 for i in match.groups(()):
                     list_temp.append(i)
+                #加入来源标识：
+                list_temp.append(souce_t)
                 list_Oaptical.append(list_temp)
+
 
         list2=[]
         for i in list_Oaptical:
@@ -179,8 +207,12 @@ class Csvaylisys:
             print(i)
         return list2
 
-#
-# fname = "39.csv"
+
+
+c=Csvaylisys.allcsv()
+# #
+# fname = "省干新A网.csv"
+# #fname="39.csv"
 # idic = {"名称": "保护", "保护路由": "-"}
 # odic = {"级别": "3", "名": "辅"}
 # pat = "省调.*-14.*->"
