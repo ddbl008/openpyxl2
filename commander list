@@ -21,6 +21,8 @@ https://baijiahao.baidu.com/s?id=1640210921068132609&wfr=spider&for=pc 较好的
  python查看支持whl版本
  Amd64
 import pip._internal
+
+
 print(pip._internal.pep425tags.get_supported())
 win32
 import pip
