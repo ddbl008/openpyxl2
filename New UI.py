@@ -1,4 +1,5 @@
 import tkinter as tk
+import numpy as np
 
 import Pdebug
 import tkinter.ttk
@@ -165,12 +166,44 @@ class newUI:
         cb_na = tk.Checkbutton(f2, text="新A网")
         cb_nb=tk.Checkbutton(f2, text="新B网")
 
-        list_tname = ["name", "type"]
+
+
+        def click_quert():
+            #"省调.*-14.*->"
+
+            pattern=entry_node1_name.get()+".*-"+entry_node1_slot.get()+".*-"+entry_node1_inter.get()+".*?->.*?"+entry_node2_name.get()+".*-"+entry_node2_slot.get()+".*-"+entry_node2_inter.get()
+
+            pattern = "省调.*-14.*-1.*?->.*?厂口.*?-9-.*?-1.*"
+            #c=Pdebug.Csvaylisys.allcsv()
+            c=Pdebug.Csvaylisys("39.csv")
+
+            df=c.n1(pattern)
+            list_t = ["名称", "级别", "n-1影响", "来源"]
+            df[list_t].to_csv("neswUIout.csv",encoding='utf_8_sig')
+            #print(r_list.to_list())
+            out_sec=["名称","n-1影响","来源"]
+            df.sort_values(by=["名称"])
+            r=np.array(df.sort_values(by=["名称"])[out_sec])
+            rlist=r.tolist()
+            for i in rlist:
+                tree_output.insert('',"end",values=i)
+
+
+
+
+
+        bt_query=tk.Button(f2,text="查询",command=click_quert)
+
+        list_tname = ["name", "type","source"]
         tree_output = tk.ttk.Treeview(f3, columns=list_tname)
 
+        test=[[1,2,3],[3,4,5]]
         for i in list_tname:
             tree_output.heading(i, text=i)
             tree_output.column(i)
+
+        for i in test:
+            tree_output.insert('', 'end', values=i)
 
         labe_node1_name.pack(side="left")
         entry_node1_name.pack(side="left")
@@ -184,6 +217,7 @@ class newUI:
         entry_node2_slot.pack(side="left")
         labe_node2_inter.pack(side="left")
         entry_node2_inter.pack(side="left")
+        bt_query.pack(side="right")
 
         cb_ob.pack(side="left")
         cb_na.pack(side="left")
@@ -237,6 +271,6 @@ class newUI:
         pass
 
 fname = "48.csv"
-cc = Pdebug.Csvaylisys(fname)
+cc = Pdebug.Csvaylisys.allcsv()
 
 c = newUI(cc)

@@ -126,6 +126,45 @@ class Csvaylisys:
 
         return self.df[cond]
 
+    #实现N-1分析按照指定的字符串排序输出
+    def sort(self,df):
+        def bianhua(a,li_key):
+            lista = li_key
+            aa = a  # type:str
+            for i in lista:
+                if re.search(i, aa,re.IGNORECASE):
+                    return lista.index(i)
+            return 10
+
+        l_keylevel=[]
+
+        l_lv1=["保护","安稳","稳控","自动化"]
+        l_lv2=["500kV","220kV","110kV","35kV"]
+        l_keylevel.append(l_lv1)
+        l_keylevel.append(l_lv2)
+        li_sname=[]
+        for i in range(0,len(l_keylevel)):
+            #df["序号"+i]=df["名称"].apply(bianhua,args=(df["名称"],l_keylevel[i]))
+            df["序号" + str(i)] = df["名称"].apply(bianhua,args=(l_keylevel[i],))
+
+            li_sname.append("序号"+str(i))
+
+
+        li_sname.append("名称")
+        fdf=df.sort_values(by=li_sname)
+
+        df1=fdf[fdf["n-1影响"]=="业务中断"]
+        df2 = fdf[fdf["n-1影响"] == "可靠性降低"]
+        #df.sort_values()
+        #df["序号"]=df["名称"].apply(bianhua)
+        df = pd.concat([df1, df2], axis=0, ignore_index=True)
+
+
+        del li_sname[-1]
+
+
+        return df.drop(columns=li_sname,axis=1)
+
     def n1(self, susbednpattern):
         # 影响主用路由
         idic = {}
@@ -141,13 +180,14 @@ class Csvaylisys:
 
         odic = {}
         odic["工作路由"] = susbednpattern
+        odic["级别"]="服务层"
         df2 = self.querykey(idic, odic)
         df2['n-1影响'] = '可靠性降低'
 
         # 影响单路径
         idic = {}
         idic["工作路由"] = susbednpattern
-        idic["保护路由"] = "-"
+        idic["保护路由"] = "^-$"
 
         odic = {}
         odic["级别"] = "服务层"
@@ -169,7 +209,17 @@ class Csvaylisys:
         # print(df2["名称"])
 
         dfr = df4.append(df3).append(df2).append(df1)
+
+        dfr=self.sort(dfr)
+
+
         return dfr
+
+
+
+
+
+
 
     def showallopaht(self, nodename):
         #通过输入节点名字nodename，关联出其对应的光口以及对侧光口，并以列表形式输出
@@ -209,15 +259,29 @@ class Csvaylisys:
 
 
 
-c=Csvaylisys.allcsv()
+#c=Csvaylisys.allcsv()
 # #
 # fname = "省干新A网.csv"
-# #fname="39.csv"
+fname="39.csv"
 # idic = {"名称": "保护", "保护路由": "-"}
 # odic = {"级别": "3", "名": "辅"}
-# pat = "省调.*-14.*->"
-# c = Csvaylisys(fname)
-#
+#省调-14-SL16A-1(SDH-1)-VC4:7-VC12:12[3-4-1]->105-厂口变-9-SL16A-1(SDH-1)-VC4:7-VC12:12[3-4-1]];
+pat = "厂口.*-5.*-1.*?->.*?龙海.*?-11-.*?-1.*"
+
+c = Csvaylisys(fname)
+df=c.n1(pat)
+print(df)
+list_t=["序号","名称","级别","n-1影响","工作路由","保护路由","来源"]
+
+
+
+
+
+
+#df["序号"]=df.apply(bianhua(df), axis = 1)
+#lambda x:x.head(2)
+
+df[list_t].to_csv("dfout.csv",encoding='utf_8_sig')
 #
 # pat = "曲靖地调"
 # c.showallopaht(pat)
