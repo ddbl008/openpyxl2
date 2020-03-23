@@ -14,6 +14,22 @@ class Csvaylisys:
         if isinstance(fname, pd.DataFrame):
 
             self.df=fname
+        import os
+        import configparser
+
+        # 当前文件路径
+        proDir = os.path.split(os.path.realpath(__file__))[0]
+        # 在当前文件路径下查找.ini文件
+        configPath = os.path.join(proDir, "Pddebug.ini")
+
+        conf = configparser.ConfigParser()
+
+        # 读取.ini文件
+        conf.read(configPath, encoding='utf-8')
+
+        self.dic_classify = {}
+        for i in conf.options("type"):
+            self.dic_classify[i] = str.split(conf.get("type", i), "/")
 
     @classmethod
     def allcsv(cls):
@@ -258,30 +274,51 @@ class Csvaylisys:
         return list2
 
 
+    def typeclassis(self,df,index_name,newcol_name,dic_class=None):
+        if dic_class==None:
+            dic_class=self.dic_classify
 
-#c=Csvaylisys.allcsv()
-# #
-# fname = "省干新A网.csv"
+        def bianhua(a,dic_class):
+            for onet in dic_class:
+                for j in dic_class[onet]:
+                    if a.find(j)>-1:
+                        return onet
+
+
+
+            return "其他"
+
+
+
+
+        df[newcol_name]=df[index_name].apply(bianhua,args=(dic_class,))
+
+
+
+        return df
+
+
+
+
 fname="39.csv"
-# idic = {"名称": "保护", "保护路由": "-"}
-# odic = {"级别": "3", "名": "辅"}
-#省调-14-SL16A-1(SDH-1)-VC4:7-VC12:12[3-4-1]->105-厂口变-9-SL16A-1(SDH-1)-VC4:7-VC12:12[3-4-1]];
 pat = "厂口.*-5.*-1.*?->.*?龙海.*?-11-.*?-1.*"
-
 c = Csvaylisys(fname)
 df=c.n1(pat)
 print(df)
 list_t=["序号","名称","级别","n-1影响","工作路由","保护路由","来源"]
-
-
-
-
-
-
-#df["序号"]=df.apply(bianhua(df), axis = 1)
-#lambda x:x.head(2)
-
 df[list_t].to_csv("dfout.csv",encoding='utf_8_sig')
-#
-# pat = "曲靖地调"
-# c.showallopaht(pat)
+
+
+
+
+
+
+dic_class={}
+dic_class["自动化"]=["OCS","EMS"]
+dic_class["稳控"]=["安稳","稳控"]
+dic_class["网管"]=["网管"]
+
+
+
+
+c.typeclassis(df[list_t],"名称","业务分类").to_csv("typeclassis.csv",encoding='utf_8_sig')

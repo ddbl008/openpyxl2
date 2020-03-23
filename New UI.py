@@ -145,6 +145,7 @@ class newUI:
         top = self.namelb_list["功能2"][1]
         f1 = tk.Frame(top)#显示那些需要显示的checkbutton
         f2 = tk.Frame(top)#显示查询N-1分析的光路
+        f4 = tk.Frame(top) #显示查询N-1分析的光路二
         f3 = tk.Frame(top)#树形目录显示要得东西
 
         labe1 = tk.Label(f1, text='光口查询功能:输入待查询站点名字后，即可获得与该站发生联系的光口以及对侧站点槽位，连接速率信息', font="15", bg="yellow")
@@ -155,12 +156,12 @@ class newUI:
         entry_node1_slot = tk.Entry(f2)
         labe_node1_inter = tk.Label(f2, text='A站光口:', font="20", bg="gray")
         entry_node1_inter = tk.Entry(f2)
-        labe_node2_name = tk.Label(f2, text='B站名字:', font="20", bg="gray")
-        entry_node2_name = tk.Entry(f2)
-        labe_node2_slot = tk.Label(f2, text='B站槽位:', font="20", bg="gray")
-        entry_node2_slot = tk.Entry(f2)
-        labe_node2_inter = tk.Label(f2, text='B站光口:', font="20", bg="gray")
-        entry_node2_inter = tk.Entry(f2)
+        labe_node2_name = tk.Label(f4, text='B站名字:', font="20", bg="gray")
+        entry_node2_name = tk.Entry(f4)
+        labe_node2_slot = tk.Label(f4, text='B站槽位:', font="20", bg="gray")
+        entry_node2_slot = tk.Entry(f4)
+        labe_node2_inter = tk.Label(f4, text='B站光口:', font="20", bg="gray")
+        entry_node2_inter = tk.Entry(f4)
 
         cb_ob=tk.Checkbutton(f2,text="老B网")
         cb_na = tk.Checkbutton(f2, text="新A网")
@@ -169,24 +170,39 @@ class newUI:
 
 
         def click_quert():
-            #"省调.*-14.*->"
-
-            pattern=entry_node1_name.get()+".*-"+entry_node1_slot.get()+".*-"+entry_node1_inter.get()+".*?->.*?"+entry_node2_name.get()+".*-"+entry_node2_slot.get()+".*-"+entry_node2_inter.get()
-
-            pattern = "省调.*-14.*-1.*?->.*?厂口.*?-9-.*?-1.*"
-            #c=Pdebug.Csvaylisys.allcsv()
-            c=Pdebug.Csvaylisys("39.csv")
-
-            df=c.n1(pattern)
-            list_t = ["名称", "级别", "n-1影响", "来源"]
-            df[list_t].to_csv("neswUIout.csv",encoding='utf_8_sig')
-            #print(r_list.to_list())
-            out_sec=["名称","n-1影响","来源"]
-            df.sort_values(by=["名称"])
-            r=np.array(df.sort_values(by=["名称"])[out_sec])
-            rlist=r.tolist()
-            for i in rlist:
+            x = tree_output.get_children()
+            for item in x:
+                tree_output.delete(item)
+            # #"省调.*-14.*->"
+            #             #
+            #             # pattern=entry_node1_name.get()+".*-"+entry_node1_slot.get()+".*-"+entry_node1_inter.get()+".*?->.*?"+entry_node2_name.get()+".*-"+entry_node2_slot.get()+".*-"+entry_node2_inter.get()
+            #             #
+            #             # pattern = "省调.*-14.*-1.*?->.*?厂口.*?-9-.*?-1.*"
+            #             # #c=Pdebug.Csvaylisys.allcsv()
+            #             # c=Pdebug.Csvaylisys("39.csv")
+            #             #
+            #             # df=c.n1(pattern)
+            #             # list_t = ["名称", "级别", "n-1影响", "来源"]
+            #             # df[list_t].to_csv("neswUIout.csv",encoding='utf_8_sig')
+            #             # #print(r_list.to_list())
+            #             # out_sec=["名称","n-1影响","来源"]
+            #             # df.sort_values(by=["名称"])
+            #             # r=np.array(df.sort_values(by=["名称"])[out_sec])
+            fname = "39.csv"
+            #pat = "厂口.*-5.*-1.*?->.*?龙海.*?-11-.*?-1.*"
+            pat=entry_node1_name.get()+".*-"+entry_node1_slot.get()+".*-"+entry_node1_inter.get()+".*?->.*?"+entry_node2_name.get()+".*-"+entry_node2_slot.get()+".*-"+entry_node2_inter.get()
+            c = Pdebug.Csvaylisys(fname)
+            list_t = ["序号", "名称", "级别", "n-1影响", "工作路由", "保护路由", "来源"]
+            list_t=["名称","n-1影响"]
+            r = np.array(Pdebug.Csvaylisys(fname).n1(pat)[list_t]).tolist()
+            for i in r:
                 tree_output.insert('',"end",values=i)
+
+
+
+
+
+
 
 
 
@@ -266,6 +282,8 @@ class newUI:
 
         f1.pack(side="top")
         f2.pack(side="top")
+        f4.pack(side="top")
+
         f3.pack(side="top")
 
         pass
